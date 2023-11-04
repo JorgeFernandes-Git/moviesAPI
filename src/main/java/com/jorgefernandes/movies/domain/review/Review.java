@@ -21,6 +21,9 @@ public class Review {
 
     private String body;
 
+    private ObjectId userId;
+    private String userNickname;
+
     public Review(String body) {
         this.body = body;
     }

@@ -24,17 +24,30 @@ public class ReviewService {
         return this.repository.findAll();
     }
 
-
-    public Review createReview(String reviewBody, String imdbId) {
-        Review review = this.repository.insert(new Review(reviewBody));
+    public Review createReview(String reviewBody, String imdbId, ObjectId userId, String userNickname) {
+        Review review = new Review(reviewBody);
+        review.setUserNickname(userNickname);
+        review.setUserId(userId);
+        review = this.repository.insert(review);
 
         mongoTemplate.update(Movie.class)
                 .matching(Criteria.where("imdbId").is(imdbId))
-                .apply(new Update().push("reviewsIds").value(review))
+                .apply(new Update().push("reviewsIds").value(review.getId()))
                 .first();
 
         return review;
     }
+
+//    public Review createReview(String reviewBody, String imdbId) {
+//        Review review = this.repository.insert(new Review(reviewBody));
+//
+//        mongoTemplate.update(Movie.class)
+//                .matching(Criteria.where("imdbId").is(imdbId))
+//                .apply(new Update().push("reviewsIds").value(review))
+//                .first();
+//
+//        return review;
+//    }
 
     public boolean deleteReview(ObjectId reviewId) {
         Review review = this.repository.findById(reviewId).orElse(null);

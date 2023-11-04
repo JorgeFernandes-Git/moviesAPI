@@ -19,7 +19,23 @@ public class ReviewController {
 
     @PostMapping
     public ResponseEntity<Review> createReview(@RequestBody Map<String, String> payload) {
-        return new ResponseEntity<>(reviewService.createReview(payload.get("reviewBody"), payload.get("imdbId")), HttpStatus.CREATED);
+//        return new ResponseEntity<>(reviewService.createReview(payload.get("reviewBody"), payload.get("imdbId"), payload.get("userId")), HttpStatus.CREATED);
+        String reviewBody = payload.get("reviewBody");
+        String imdbId = payload.get("imdbId");
+        String userIdStr = payload.get("userId");
+        String userNickname = payload.get("userNickname");
+
+        if (reviewBody == null || imdbId == null || userIdStr == null || userNickname == null) {
+            // Handle missing data, such as returning a bad request response
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        ObjectId userId = new ObjectId(userIdStr); // Convert userId string to ObjectId
+
+        Review createdReview = reviewService.createReview(reviewBody, imdbId, userId, userNickname);
+
+        return new ResponseEntity<>(createdReview, HttpStatus.CREATED);
+
     }
 
     @GetMapping
