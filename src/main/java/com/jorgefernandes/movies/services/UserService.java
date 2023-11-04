@@ -1,6 +1,7 @@
 package com.jorgefernandes.movies.services;
 
 import com.jorgefernandes.movies.domain.user.User;
+import com.jorgefernandes.movies.dtos.LoginDTO;
 import com.jorgefernandes.movies.dtos.UserDTO;
 import com.jorgefernandes.movies.repositories.UserRepository;
 import org.bson.types.ObjectId;
@@ -38,4 +39,22 @@ public class UserService {
             return false; // user not found
         }
     }
+
+    public User authenticateUser(LoginDTO loginDTO) {
+        // Retrieve the user based on the provided nickname (username)
+        User user = userRepository.findByNickname(loginDTO.nickname());
+
+        if (user != null) {
+            // Check if the provided password matches the stored password hash
+//            if (passwordEncoder.matches(loginDTO.getPassword(), user.getPassword())) {
+//                // Passwords match, so the user is authenticated
+//                return user;
+//            }
+            return user;
+        }
+
+        // If the provided credentials are invalid, return null or handle authentication failure as needed
+        return null;
+    }
+
 }
