@@ -1,6 +1,7 @@
 package com.jorgefernandes.movies.controllers;
 
 import com.jorgefernandes.movies.domain.movie.Movie;
+import com.jorgefernandes.movies.dtos.MovieDTO;
 import com.jorgefernandes.movies.services.MovieService;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,12 @@ public class MovieController {
     @GetMapping("/{imdbId}")
     public ResponseEntity<Optional<Movie>> getSingleMovie(@PathVariable String imdbId) {
         return new ResponseEntity<>(movieService.singleMovie(imdbId), HttpStatus.OK);
+    }
+
+    @PostMapping
+    public ResponseEntity<Movie> addMovie(@RequestBody MovieDTO data) {
+        Movie newMovie = movieService.addMovie(data);
+        return new ResponseEntity<>(newMovie, HttpStatus.CREATED);
     }
 
 }

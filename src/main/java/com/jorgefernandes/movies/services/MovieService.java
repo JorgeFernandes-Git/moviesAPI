@@ -1,6 +1,7 @@
 package com.jorgefernandes.movies.services;
 
 import com.jorgefernandes.movies.domain.movie.Movie;
+import com.jorgefernandes.movies.dtos.MovieDTO;
 import com.jorgefernandes.movies.repositories.MovieRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,5 +22,11 @@ public class MovieService {
 
     public Optional<Movie> singleMovie(String  id) {
         return this.repository.findMovieByImdbId(id);
+    }
+
+    public Movie addMovie(MovieDTO data) {
+        Movie newMovie = new Movie(data);
+        this.repository.save(newMovie);
+        return newMovie;
     }
 }

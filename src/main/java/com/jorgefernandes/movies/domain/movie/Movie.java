@@ -1,6 +1,7 @@
 package com.jorgefernandes.movies.domain.movie;
 
 import com.jorgefernandes.movies.domain.review.Review;
+import com.jorgefernandes.movies.dtos.MovieDTO;
 import lombok.*;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
@@ -29,4 +30,13 @@ public class Movie {
     @DocumentReference
     private List<Review> reviewsIds;
 
+    public Movie(MovieDTO data) {
+        this.imdbId = data.imdbId();
+        this.title = data.title();
+        this.releaseDate = data.releaseDate();
+        this.trailerLink = data.trailerLink();
+        this.poster = data.poster();
+        this.genres = data.genres();
+        this.backdrops = data.backdrops();
+    }
 }
